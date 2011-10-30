@@ -17,9 +17,15 @@ grad = zeros(size(theta));
 %               Compute the partial derivatives and set grad to the partial
 %               derivatives of the cost w.r.t. each parameter in theta
 
+% cost and gradient value w/o regularization
+[J_base, grad_base] = costFunction(theta, X, y);
 
+% make theta(0) to be zero, so regression is not calculated for it.
+theta_partial = [ 0; theta(2:1:end,:) ];
 
+J = J_base + ((lambda/(2*m)) * (theta_partial'*theta_partial));
 
+grad = grad_base + (lambda/m * theta_partial');
 
 
 % =============================================================
