@@ -16,16 +16,8 @@ p = zeros(m, 1);
 %
 
 % simple function to convert to prediction
-function prediction = predict_single(a) 
-    if (a >= 0.5) 
-        prediction = 1;
-    else 
-        prediction = 0;
-    endif
-endfunction
-
 h = sigmoid(X*theta);
-p = arrayfun(@predict_single, h);
+p = arrayfun(inline("x>=0.5"), h);
 
 % =========================================================================
 
