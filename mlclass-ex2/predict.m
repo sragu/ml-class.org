@@ -15,11 +15,17 @@ p = zeros(m, 1);
 %               You should set p to a vector of 0's and 1's
 %
 
+% simple function to convert to prediction
+function prediction = predict_single(a) 
+    if (a >= 0.5) 
+        prediction = 1;
+    else 
+        prediction = 0;
+    endif
+endfunction
 
-
-
-
-
+h = sigmoid(X*theta);
+p = arrayfun(@predict_single, h);
 
 % =========================================================================
 
