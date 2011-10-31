@@ -38,11 +38,16 @@ grad = zeros(size(theta));
 
 
 
+h = sigmoid(X*theta);
+J = sum(y'*log(h) + (1-y)'*log(1-h)) * -1/m;
+grad = ((h-y)'*X)/m;
 
+% make theta(0) to be zero, so regression is not calculated for it.
+theta_partial =  theta;
+theta_partial(1) = 0;
 
-
-
-
+J = J + ((lambda/(2*m)) * (theta_partial'*theta_partial));
+grad = grad + (lambda/m * theta_partial');
 
 
 % =============================================================
