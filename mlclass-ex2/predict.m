@@ -17,7 +17,10 @@ p = zeros(m, 1);
 
 % simple function to convert to prediction
 h = sigmoid(X*theta);
-p = arrayfun(inline("x>=0.5"), h);
+
+%p = arrayfun(inline("x>=0.5"), h);
+%more simple prediction array.
+p = h>=0.5;
 
 % =========================================================================
 
