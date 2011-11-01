@@ -22,11 +22,12 @@ p = zeros(size(X, 1), 1);
 %
 
 
+X = [ones(m,1), X];
 
+h = sigmoid( [ones(m,1), sigmoid(X*Theta1')] * Theta2');
 
-
-
-
+[max, index] = max(h,[],2);
+p = index;
 
 
 % =========================================================================
