@@ -68,6 +68,18 @@ J = 1/m * sum(sum(-1*yclass.*log(h) -(1-yclass).*log(1-h)));
 %         Hint: We recommend implementing backpropagation using a for-loop
 %               over the training examples if you are implementing it for the 
 %               first time.
+
+%make theta(0) to be zero, so regression is not calculated for it.
+ Theta1_partial =  Theta1;
+ Theta1_partial(:,1) = 0;
+
+ Theta2_partial =  Theta2;
+ Theta2_partial(:,1) = 0;
+ J = J + lambda/2/m * ( sum(sum(Theta1_partial.^2)) 
+            + sum(sum(Theta2_partial.^2))) ;
+%grad = grad + (lambda/m * theta_partial');
+%grad = grad(:);)
+
 %
 % Part 3: Implement regularization with the cost function and gradients.
 %
