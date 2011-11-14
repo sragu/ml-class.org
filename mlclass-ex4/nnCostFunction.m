@@ -53,6 +53,15 @@ endfor
 
 J = 1/m * sum(sum(-1*yclass.*log(h) -(1-yclass).*log(1-h)));
 
+
+ Theta1_partial =  Theta1;
+ Theta1_partial(:,1) = 0;
+
+ Theta2_partial =  Theta2;
+ Theta2_partial(:,1) = 0;
+ J = J + lambda/2/m * ( sum(sum(Theta1_partial.^2)) 
+            + sum(sum(Theta2_partial.^2))) ;
+
 %
 % Part 2: Implement the backpropagation algorithm to compute the gradients
 %         Theta1_grad and Theta2_grad. You should return the partial derivatives of
@@ -69,18 +78,28 @@ J = 1/m * sum(sum(-1*yclass.*log(h) -(1-yclass).*log(1-h)));
 %               over the training examples if you are implementing it for the 
 %               first time.
 
-%make theta(0) to be zero, so regression is not calculated for it.
- Theta1_partial =  Theta1;
- Theta1_partial(:,1) = 0;
 
- Theta2_partial =  Theta2;
- Theta2_partial(:,1) = 0;
- J = J + lambda/2/m * ( sum(sum(Theta1_partial.^2)) 
-            + sum(sum(Theta2_partial.^2))) ;
-%grad = grad + (lambda/m * theta_partial');
-%grad = grad(:);)
+for k = 1:m
+    a1 = X(k,:);
+    z2 = Theta1 * a1';
+    a2 = sigmoid(z2);
+    
+    a2 = [1; a2];
+    z3 = Theta2 * a2;
+    a3 = sigmoid(z3);
 
-%
+    z2 = [1; z2];
+
+    d3 = a3 - yclass(:,k)
+    d2 = Theta2' * d3 .* sigmoidGradient(z2);
+    d2 = d2(2:end);
+
+    Theta2_grad = Theta2_grad + d3 * a2';
+    Theta1_grad = Theta1_grad + d2 * a1;
+
+endfor
+
+
 % Part 3: Implement regularization with the cost function and gradients.
 %
 %         Hint: You can implement this around the code for
@@ -90,18 +109,11 @@ J = 1/m * sum(sum(-1*yclass.*log(h) -(1-yclass).*log(1-h)));
 %
 
 
+Theta1_grad(:,1) = Theta1_grad(:,1)/m;
+Theta1_grad(:,2:end) = Theta1_grad(:,2:end)/m + ((lambda/m) * Theta1(:,2:end));
 
-
-
-
-
-
-
-
-
-
-
-
+Theta2_grad(:,1) = Theta2_grad(:,1)/m;
+Theta2_grad(:,2:end) = Theta2_grad(:,2:end)/m + ((lambda/m) * Theta2(:,2:end));
 
 
 
