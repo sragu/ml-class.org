@@ -21,11 +21,15 @@ idx = zeros(size(X,1), 1);
 % Note: You can use a for-loop over the examples to compute this.
 %
 
-
-
-
-
-
+for x_index = 1:size(X,1)
+	nearest = [];
+	for c_index = 1:size(centroids,1)
+    	dist = X(x_index,:) - centroids(c_index,:);
+		nearest = [ nearest; dist*dist' ];
+	end
+	[value, index] = min(nearest);
+	idx(x_index) = index;
+end
 
 % =============================================================
 
